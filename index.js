@@ -31,12 +31,12 @@ fs.readdir('./', (e, files) => {
 							npm.on('log', message => console.log(message))
 							npm.commands.install(errr => {
 								if (errr) {
-									console.log('                                                                           ')
+									console.log('                                                                                                                                                      ')
 									console.warn('[WARN]: An Error Occurred While Trying To Install The Dependencies!')
 									console.error('[ERROR]: ', errr)
 									console.info('[INFO]: Try To Run \'npm i\' Manually.')
 								} else {
-									console.log('                                                                           ')
+									console.log('                                                                                                                                                      ')
 									console.info('[INFO]: Success! Enjoy :)')
 									console.info('[INFO]: Execute \'npm run start\' To Start The Dev Server, And \'npm run build\' To Build Your Project.')
 
