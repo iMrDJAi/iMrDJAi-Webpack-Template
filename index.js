@@ -21,29 +21,37 @@ fs.readdir('./', (e, files) => {
 					console.warn('[WARN]: An Error Occurred While Trying To Copy The Files!')
 					console.error('[ERROR]: ', er)
 				} else {
-					console.info('[INFO]: Installing The Project Dependencies...')
-					npm.load(err => {
+					console.info('[INFO]: Renaming \'.gitignore-template\' To \'.gitignore\'.')
+					fs.rename('./template/.gitignore', './template/.gitignore-template', err => {
 						if (err) {
-							console.warn('[WARN]: An Error Occurred While Trying To Load NPM!')
+							console.warn('[WARN]: An Error Occurred While Trying To Rename The File!')
 							console.error('[ERROR]: ', err)
-							console.info('[INFO]: Try To Run \'npm i\' Manually.')
 						} else {
-							npm.on('log', message => console.log(message))
-							npm.commands.install(errr => {
+							console.info('[INFO]: Installing The Project Dependencies...')
+							npm.load(errr => {
 								if (errr) {
-									console.log('                                                                                                                                                      ')
-									console.warn('[WARN]: An Error Occurred While Trying To Install The Dependencies!')
+									console.warn('[WARN]: An Error Occurred While Trying To Load NPM!')
 									console.error('[ERROR]: ', errr)
 									console.info('[INFO]: Try To Run \'npm i\' Manually.')
 								} else {
-									console.log('                                                                                                                                                      ')
-									console.info('[INFO]: Success! Enjoy :)')
-									console.info('[INFO]: Execute \'npm run start\' To Start The Dev Server, And \'npm run build\' To Build Your Project.')
-
+									npm.on('log', message => console.log(message))
+									npm.commands.install(errrr => {
+										if (errrr) {
+											console.log('                                                                                                                                                      ')
+											console.warn('[WARN]: An Error Occurred While Trying To Install The Dependencies!')
+											console.error('[ERROR]: ', errrr)
+											console.info('[INFO]: Try To Run \'npm i\' Manually.')
+										} else {
+											console.log('                                                                                                                                                      ')
+											console.info('[INFO]: Success! Enjoy :)')
+											console.info('[INFO]: Execute \'npm run start\' To Start The Dev Server, And \'npm run build\' To Build Your Project.')
+		
+										}
+									})
 								}
 							})
 						}
-					})
+					})				   
 				}
 			})
 		} else {
