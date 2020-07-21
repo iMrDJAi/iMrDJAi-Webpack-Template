@@ -1,6 +1,6 @@
 {
   "name": "imrdjai-webpack-template",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Webpack template by ${Mr.DJA}!",
   "bin": "./index.js",
   "repository": {

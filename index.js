@@ -22,7 +22,7 @@ fs.readdir('./', (e, files) => {
 					console.error('[ERROR]: ', er)
 				} else {
 					console.info('[INFO]: Renaming \'.gitignore-template\' To \'.gitignore\'.')
-					fs.rename('./template/.gitignore-template', './template/.gitignore', err => {
+					fs.rename('./.gitignore-template', './.gitignore', err => {
 						if (err) {
 							console.warn('[WARN]: An Error Occurred While Trying To Rename The File!')
 							console.error('[ERROR]: ', err)
