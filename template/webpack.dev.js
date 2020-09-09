@@ -23,12 +23,35 @@ module.exports = {
                 test: /\.(png|jpe?g|gif)$/,
                 loader: 'file-loader',
                 options: {
-                    name: '[name].[hash].[ext]',
+                    name: '[name].[ext]',
                     outputPath: 'assets'
                 }
             },
             {
-                test: /\.(scss|css)$/,
+                test: /\.lit\.(scss|css)$/,
+                use: [
+                    "lit-scss-loader",
+                    "extract-loader",
+                    "css-loader",
+                    { 
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: () => [autoprefixer()]
+                        }
+                    },
+                    { 
+                        loader: 'sass-loader',
+                        options: {
+                            webpackImporter: false,
+                            sassOptions: {
+                                includePaths: ['node_modules'],
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                test: /^(?!.*\..*\.(?:scss|css)$).*\.(?:scss|css)$/,
                 use: [
                     "style-loader", //2. Inject styles into DOM
                     "css-loader", //1. Turns css into commonjs
@@ -54,5 +77,10 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
         port: 80
+    },
+    node: {
+        fs: "empty",
+        net: 'empty',
+        tls: 'empty'
     }
 }

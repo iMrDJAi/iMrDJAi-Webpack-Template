@@ -14,7 +14,7 @@ $ npx imrdjai-webpack-template [--force]
 
 ## Features:
 
-This is a very basic and well configured Webpack template. it supports ES modules, SCSS, JSX...
+This is a very basic and well configured Webpack template. it supports ES modules, SCSS, Lit-Element styling, JSX...
 
 **webpack-dev-server** and **webpack-bundle-analyzer** are included 😁.
 
