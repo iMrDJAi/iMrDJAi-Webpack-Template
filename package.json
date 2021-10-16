@@ -19,8 +19,7 @@
   "author": "${Mr.DJA}",
   "license": "MIT",
   "dependencies": {
-    "fs-extra": "^9.0.1",
-    "npm": "^6.14.6"
+    "fs-extra": "^10.0.0"
   },
   "bugs": {
     "url": "https://github.com/iMrDJAi/imrdjai-webpack-template/issues"

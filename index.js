@@ -1,63 +1,62 @@
 #!/usr/bin/env node
-var fs = require('fs')
-var fsExtra = require('fs-extra')
-var path = require("path")
-var npm = require('npm')
-console.info('[INFO]: Webpack Template By ${Mr.DJA}!')
-console.info('[INFO]: Current Working Directory: ' + path.resolve("./"))
-fs.readdir('./', (e, files) => {
-	if (e && process.argv[2] !== "--force") {
-		console.warn('[WARN]: An Error Occurred While Trying To Check The Directory!')
-		console.error('[ERROR]: ', e)
-	} else {
-		if (process.argv[2] === "--force") {
-			console.info('[INFO]: Forcing To Bypass The Directory Check.')
-			var DirTest = true
-		} else var DirTest = files && files.length === 0
-		if (DirTest) {
-			console.info('[INFO]: Copying The Template Files...')
-			fsExtra.copy(__dirname + '/template', './', er => {
-				if (er) {
-					console.warn('[WARN]: An Error Occurred While Trying To Copy The Files!')
-					console.error('[ERROR]: ', er)
-				} else {
-					console.info('[INFO]: Renaming \'.gitignore-template\' To \'.gitignore\'.')
-					fs.rename('./.gitignore-template', './.gitignore', err => {
-						if (err) {
-							console.warn('[WARN]: An Error Occurred While Trying To Rename The File!')
-							console.error('[ERROR]: ', err)
-						} else {
-							console.info('[INFO]: Installing The Project Dependencies...')
-							npm.load(errr => {
-								if (errr) {
-									console.warn('[WARN]: An Error Occurred While Trying To Load NPM!')
-									console.error('[ERROR]: ', errr)
-									console.info('[INFO]: Try To Run \'npm i\' Manually.')
-								} else {
-									npm.on('log', message => console.log(message))
-									npm.commands.install(errrr => {
-										if (errrr) {
-											console.log('                                                                                                                                                      ')
-											console.warn('[WARN]: An Error Occurred While Trying To Install The Dependencies!')
-											console.error('[ERROR]: ', errrr)
-											console.info('[INFO]: Try To Run \'npm i\' Manually.')
-										} else {
-											console.log('                                                                                                                                                      ')
-											console.info('[INFO]: Success! Enjoy :)')
-											console.info('[INFO]: Execute \'npm run start\' To Start The Dev Server, And \'npm run build\' To Build Your Project.')
-		
-										}
-									})
-								}
-							})
-						}
-					})				   
-				}
-			})
-		} else {
-			console.warn('[WARN]: The Directory Isn\'t Empty!')
-			console.info('[INFO]: Make Sure That You\'re Running This Command Inside An Empty Directory Then Try Again!')
-			console.info('[INFO]: You Can Also Pass \'--force\' As A Parameter To The Command To Bypass That Check. DO IT AT YOUR OWN RISK!')
-		}
+const child_process = require('child_process')
+const fs = require('fs')
+const fsExtra = require('fs-extra')
+const path = require('path')
+
+console.info('[INFO]: Webpack Template by ${Mr.DJA}!')
+console.info('[INFO]: Current working directory: ' + path.resolve("./"))
+
+if (process.argv[2] !== "--force") {
+	let files
+	try {
+		files = fs.readdirSync('./')
+	} catch (err) {
+		console.warn('[WARN]: An error occurred while trying to check the directory!')
+		console.error('[ERROR]: ', err)
+		return
 	}
-})
+	if (files && files.length) {
+		console.warn('[WARN]: The directory isn\'t empty!')
+		console.info('[INFO]: Make sure that you\'re running this command inside an empty directory then try again!')
+		console.info('[INFO]: You can also pass \'--force\' as a parameter to the command to bypass the directory check. DO IT AT YOUR OWN RISK!')
+		return
+	}
+} else {
+	console.info('[INFO]: Forced to bypass the directory check.')
+}
+
+console.info('[INFO]: Copying the template files...')
+try {
+	fsExtra.copySync(`${__dirname}/template`, './')
+} catch (err) {
+	console.warn('[WARN]: An error occurred while trying to copy the files!')
+	console.error('[ERROR]: ', err)
+	return
+}
+
+console.info('[INFO]: Renaming \'.gitignore-template\' to \'.gitignore\'.')
+try {
+	fsExtra.renameSync('./.gitignore-template', './.gitignore')
+} catch (err) {
+	console.warn('[WARN]: An error occurred while trying to rename the file!')
+	console.error('[ERROR]: ', err)
+	return
+}
+
+console.info('[INFO]: Installing the project dependencies...')
+try {
+	child_process.execSync('npm i', {
+		stdio: [0, 1, 2]
+	})
+} catch (err) {
+	console.log(new Array(150).fill(' ').join(''))
+	console.warn('[WARN]: An error occurred while trying to install the dependencies!')
+	console.error('[ERROR]: ', err)
+	console.info('[INFO]: Try running \'npm i\' manually.')
+	return
+}
+
+console.log(new Array(150).fill(' ').join(''))
+console.info('[INFO]: Success! Enjoy :)')
+console.info('[INFO]: Execute \'npm run start\' to start the dev server and \'npm run build\' to build your project.')
