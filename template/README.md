@@ -2,7 +2,7 @@
 # ${Mr.DJA} Webpack Template
 [![npm](https://img.shields.io/npm/v/imrdjai-webpack-template?color=red)](https://www.npmjs.com/package/imrdjai-webpack-template)
 
-Webpack template by ${Mr.DJA}!
+Webpack Template by ${Mr.DJA}!
 ***
 ## Usage:
 It's simple, run *the following command\** inside an empty directory, make sure that you have **npm** and **npx** installed on your system.
@@ -14,7 +14,7 @@ $ npx imrdjai-webpack-template [--force]
 
 ## Features:
 
-This is a very basic and well configured Webpack template. it supports ES modules, SCSS, JSX...
+This is a very basic and well configured Webpack template. It supports ES modules, SCSS, JSX...
 
 **webpack-dev-server** and **webpack-bundle-analyzer** are included 😁.
 

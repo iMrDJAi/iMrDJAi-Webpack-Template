@@ -1,16 +1,17 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const autoprefixer = require('autoprefixer');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
+
 module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js'
     },
     output: {
-        filename: '[name].[hash].js',
-        publicPath: '/',
+        filename: '[name].[contenthash].js',
+        publicPath: '/'
     },
     plugins: [
-        new HtmlWebpackPlugin({ template: "./src/index.html" })
+        new HtmlWebpackPlugin({ template: './src/index.html' })
     ],
     module: {
         rules: [
@@ -28,15 +29,17 @@ module.exports = {
                 }
             },
             {
-                test: /\.lit\.(scss|css)$/,
+                test: /\.(scss|css)$/,
                 use: [
-                    "lit-scss-loader",
-                    "extract-loader",
-                    "css-loader",
+                    'style-loader',
+                    'css-loader',
                     { 
                         loader: 'postcss-loader',
                         options: {
-                            plugins: () => [autoprefixer()]
+                            postcssOptions: {
+                                plugins: () => [autoprefixer()],
+                                hideNothingWarning: true
+                            }
                         }
                     },
                     { 
@@ -44,32 +47,10 @@ module.exports = {
                         options: {
                             webpackImporter: false,
                             sassOptions: {
-                                includePaths: ['node_modules'],
+                                includePaths: ['node_modules']
                             }
                         }
                     }
-                ]
-            },
-            {
-                test: /^(?!.*\..*\.(?:scss|css)$).*\.(?:scss|css)$/,
-                use: [
-                    "style-loader", //2. Inject styles into DOM
-                    "css-loader", //1. Turns css into commonjs
-                    { 
-                        loader: 'postcss-loader',
-                        options: {
-                            plugins: () => [autoprefixer()]
-                        }
-                    },
-                    { 
-                        loader: 'sass-loader',
-                        options: {
-                            webpackImporter: false,
-                            sassOptions: {
-                                includePaths: ['node_modules'],
-                            },
-                        }
-                    },
                 ]
             }
       ]
@@ -78,9 +59,11 @@ module.exports = {
         historyApiFallback: true,
         port: 80
     },
-    node: {
-        fs: "empty",
-        net: 'empty',
-        tls: 'empty'
+    resolve: {
+        fallback: {
+            fs: false,
+            net: false,
+            tls: false
+        }
     }
 }
